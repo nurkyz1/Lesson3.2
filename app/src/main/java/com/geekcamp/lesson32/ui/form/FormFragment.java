@@ -21,6 +21,7 @@ import com.geekcamp.lesson32.ui.post.PostAdapter;
 
 import org.jetbrains.annotations.NotNull;
 
+import okhttp3.internal.http.RetryAndFollowUpInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -85,7 +86,7 @@ public class FormFragment extends Fragment {
             SetPosts();
         }
 
-        binding.btn.setOnClickListener(v -> {
+        binding.btnUpgrade.setOnClickListener(v -> {
             if (!trueUpdate){
                 CreatePost();
             }else {
@@ -95,11 +96,11 @@ public class FormFragment extends Fragment {
     }
 
     private void CreatePost() {
-        binding.btn.setOnClickListener(v -> App.api.createPost(getText()).enqueue(new Callback<Post>() {
+        binding.btnUpgrade.setOnClickListener(v -> App.api.createPost(getText()).enqueue(new Callback<Post>() {
             @Override
             public void onResponse(@NotNull Call<Post> call, @NotNull Response<Post> response) {
                 if (response.isSuccessful()){
-                    navController.navigateUp();
+                    navController.navigate(R.id.action_formFragment_to_postFragment);
                 }
             }
             @Override
@@ -111,11 +112,11 @@ public class FormFragment extends Fragment {
     }
 
     private void UpdatePost() {
-        App.api.updatePosts(getText().getUser(), getText()).enqueue(new Callback<Post>() {
+        App.api.updatePosts(getText().getId(), getText()).enqueue(new Callback<Post>() {
             @Override
             public void onResponse(@NotNull Call<Post> call, @NotNull Response<Post> response) {
                 if (response.isSuccessful()){
-                    navController.navigateUp();
+                    navController.navigate(R.id.action_formFragment_to_postFragment);
                 }
             }
 

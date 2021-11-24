@@ -9,7 +9,11 @@
         android:id="@+id/formFragment"
         android:name="com.geekcamp.lesson32.ui.form.FormFragment"
         android:label="fragment_form"
-        tools:layout="@layout/fragment_form"/>
+        tools:layout="@layout/fragment_form">
+        <action
+            android:id="@+id/action_formFragment_to_postFragment"
+            app:destination="@id/postFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/postFragment"

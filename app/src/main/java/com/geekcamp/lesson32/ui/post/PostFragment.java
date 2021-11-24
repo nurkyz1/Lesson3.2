@@ -1,13 +1,12 @@
 package com.geekcamp.lesson32.ui.post;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
@@ -19,11 +18,7 @@ import com.geekcamp.lesson32.App;
 import com.geekcamp.lesson32.R;
 import com.geekcamp.lesson32.data.models.Post;
 import com.geekcamp.lesson32.databinding.FragmentPostBinding;
-
-import java.io.Serializable;
 import java.util.List;
-import java.util.Locale;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,29 +46,34 @@ public class PostFragment extends Fragment {
 
             @Override
             public void OnLongClickListener(int pos) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
-                String positive = "Да";
-                String negative = "Нет";
-                dialog.setMessage("Вы хотите удолить ?");
-                dialog.setPositiveButton(positive, (dialog1, which) -> {
-                    App.api.deletePosts(adapter.getPost(pos).getId()).enqueue(new Callback<Post>() {
-                        @Override
-                        public void onResponse(Call<Post> call, Response<Post> response) {
-                            if (response.isSuccessful() && response.body() != null) {
-                                adapter.deletePost(pos);
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
+                        String positive = "Да";
+                        String negative = "Нет";
+                        dialog.setMessage("Вы хотите удолить ?");
+                        dialog.setPositiveButton(positive, (dialog1, which) -> App.api.deletePosts(adapter.getPost(pos).getId()).enqueue(new Callback<Post>() {
+                            @Override
+                            public void onResponse(Call<Post> call, Response<Post> response) {
+                                if (response.isSuccessful() && response.body() != null) {
+                                    adapter.deletePost(pos);
+                                    dialog.show();
+                                }
                             }
-                        }
+                            @Override
+                            public void onFailure(Call<Post> call, Throwable t) {
+                            }
+                    }));
+                            dialog.setNegativeButton(negative, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                        @Override
-                        public void onFailure(Call<Post> call, Throwable t) {
+                                }
+                            });
+                            dialog.show();
                         }
-                    });
-                    dialog.setNegativeButton(negative, (dialog2, which1) -> dialog1.dismiss()).show();
 
                 });
-            }
 
-        });
+
     }
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,

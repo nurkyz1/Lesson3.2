@@ -42,5 +42,14 @@
         android:textColor="@color/black"
         android:layout_margin="8dp"
         />
+    <Button
+        android:id="@+id/btnUpgrade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="UPGRADE"
+        android:textColor="@color/black"
+        android:layout_margin="8dp"
+        />
 
-    </LinearLayout>
+
+</LinearLayout>
